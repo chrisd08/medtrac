@@ -1,0 +1,36 @@
+{
+  "name": "@vitalic-classic/node",
+  "private": true,
+  "version": "1.0.16",
+  "description": "Awesome project developed with TypeORM.",
+  "devDependencies": {
+    "@types/ioredis": "^4.0.10",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.11.2",
+    "cross-env": "^5.2.0",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0"
+  },
+  "dependencies": {
+    "@vitalic-classic/common": "^1.0.16",
+    "ioredis": "^4.6.2",
+    "pg": "^7.3.0",
+    "reflect-metadata": "^0.1.10",
+    "ts-node": "^8.0.3",
+    "typeorm": "0.2.15-rc.2",
+    "typescript": "^3.6"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "cross-env NODE_ENV=test jest",
+    "ci:test": "JEST_JUNIT_OUTPUT=$TEST_OUTPUT/node.xml jest --ci --runInBand --detectOpenHandles --forceExit --testResultsProcessor=jest-junit",
+    "ci:deploy": "npm run heroku:deploy",
+    "heroku:deploy": "git push https://heroku:$HEROKU_API_KEY@git.heroku.com/insolution-prod.git master"
+  },
+  "workspaces": {
+    "nohoist": [
+      "typeorm",
+      "typeorm/**"
+    ]
+  }
+}

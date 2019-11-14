@@ -1,0 +1,52 @@
+version: 2.1
+
+orbs:
+  compare-url: iynere/compare-url@1.2.0
+
+workflows:
+  main:
+    jobs:
+      - build
+
+jobs:
+  build:
+    docker:
+      - image: node:11.10.1
+      - image: circleci/postgres:11-alpine-ram
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: example12
+      - image: redis:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-
+            - yarn-packages-v1-
+      - run: yarn install --freeze-lockfile
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: yarn build:deps
+      - run:
+          name: "Linter"
+          command: yarn lint --format junit -o reports/junit/js-lint-results.xml
+      - run:
+          name: "Test Suite"
+          command: yarn ci:test
+          environment:
+            TEST_OUTPUT: ../../reports/junit/
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: reports
+      # deploy
+      - compare-url/reconstruct
+      - compare-url/use:
+          custom-logic: node scripts/deploy-workspaces
+          step-name: Deploy

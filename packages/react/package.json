@@ -1,0 +1,47 @@
+{
+  "name": "@vitalic-classic/react",
+  "version": "1.0.16",
+  "private": true,
+  "dependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
+    "@vitalic-classic/common": "^1.0.16",
+    "babel-eslint": "^10.0.1",
+    "eslint-plugin-flowtype": "^3.4.2",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "lerna": "^3.15.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-scripts": "3.2.0"
+  },
+  "scripts": {
+    "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
+    "test": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts test",
+    "eject": "react-scripts eject",
+    "ci:test": "JEST_JUNIT_OUTPUT=$TEST_OUTPUT/react.xml npm run test -- --ci --runInBand --detectOpenHandles --forceExit --testResultsProcessor=jest-junit",
+    "ci:deploy": "npm run heroku:deploy",
+    "heroku:deploy": "git push https://heroku:$HEROKU_API_KEY@git.heroku.com/insulution-web.git master"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.7",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "cross-env": "^5.2.0",
+    "typescript": "^3.7.2"
+  }
+}
