@@ -1,11 +1,8 @@
-import { DISPLAY_ERROR_CODE } from "@vitalic-classic/common";
 import React, { Component } from "react";
 import "./App.css";
 import logo from "./logo.svg";
 class App extends Component {
   render() {
-    console.log(DISPLAY_ERROR_CODE);
-    console.log("test change");
     return (
       <div className="App">
         <header className="App-header">
