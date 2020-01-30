@@ -9,12 +9,12 @@
   },
   "scripts": {
     "ci:test": "lerna run ci:test",
-    "ci:deploy:node": "lerna run ci:deploy --scope=@vitalic-classic/node",
-    "ci:deploy:react": "lerna run ci:deploy --scope=@vitalic-classic/react",
+    "ci:deploy:server": "lerna run ci:deploy --scope=@vitalic-classic/server",
+    "ci:deploy:web": "lerna run ci:deploy --scope=@vitalic-classic/web",
     "build:deps": "lerna run build --scope=@vitalic-classic/common",
     "heroku-prebuild": "node scripts/remove-workspaces.js",
     "heroku-postbuild": "node scripts/build-workspaces.js",
-    "lint": "eslint --max-warnings 0 --fix -c .eslintrc.js --ignore-path .gitignore --cache --ext .js,.jsx,.ts,.tsx ."
+    "lint": "eslint --max-warnings 0 --fix -c .eslintrc.js --ignore-path .gitignore --cache --ext .ts,.tsx ."
   },
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
@@ -39,12 +39,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsc -p packages/node/tsconfig.json --noEmit && lint-staged",
+      "pre-commit": "tsc -p packages/server/tsconfig.json --noEmit && lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "lint-staged": {
-    "packages/**/src/**/*.{js,jsx,ts,tsx}": [
+    "packages/**/src/**/*.{ts,tsx}": [
       "yarn run --silent lint",
       "git add"
     ]

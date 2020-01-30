@@ -9,7 +9,7 @@ module.exports = {
     "react-app",
     "plugin:@typescript-eslint/recommended",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
   ],
 
   env: {
@@ -20,14 +20,18 @@ module.exports = {
   parserOptions: {
     sourceType: "module",
     ecmaVersion: 2018,
+    projects: ["packages/web"],
   },
 
   rules: {
     "jsx-a11y/anchor-is-valid": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/explicit-function-return-type": ["error", {
-      "allowExpressions": true
-    }],
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        allowExpressions: true,
+      },
+    ],
   },
 
   globals: {},
