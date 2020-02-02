@@ -6,7 +6,7 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     const getData = async (): Promise<void> => {
-      const token = getTokenSilently();
+      const token = await getTokenSilently();
       const response = await fetch("/graphql", {
         method: "POST",
         body: `{"operationName":null,"variables":{},"query":"{me {id,username,profiles{id,name,user{id}}}}"}`,

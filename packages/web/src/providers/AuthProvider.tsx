@@ -19,7 +19,7 @@ interface Auth0Context {
   handleRedirectCallback: () => void;
   getIdTokenClaims: (p?: getIdTokenClaimsOptions) => void;
   loginWithRedirect: (p?: RedirectLoginOptions) => void;
-  getTokenSilently: (p?: GetTokenSilentlyOptions) => void;
+  getTokenSilently: (p?: GetTokenSilentlyOptions) => Promise<string | null>;
   getTokenWithPopup: (p?: GetTokenWithPopupOptions) => void;
   logout: (p?: LogoutOptions) => void;
 }
