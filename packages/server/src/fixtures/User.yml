@@ -1,0 +1,10 @@
+entity: User
+items:
+  user1:
+    username: "{{internet.userName}}"
+    profiles:
+      - "@profile1"
+  user2:
+    username: "{{internet.userName}}"
+    profiles:
+      - "@profile2"

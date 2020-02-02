@@ -1,47 +1,12 @@
-import { gql } from "apollo-server-express";
 import { ApolloServer } from "apollo-server-fastify";
 import { parse } from "graphql";
 import { compileQuery } from "graphql-jit";
-import { makeExecutableSchema } from "graphql-tools";
 import "reflect-metadata";
-import { data } from "./data";
 import { initServer } from "./server";
+import { genSchema } from "./utils/genSchema";
+import { logger } from "./utils/logger";
 
-const typeDefs = gql`
-  type Author {
-    id: ID!
-    name: String!
-    md5: String!
-    company: String!
-    books: [Book!]!
-  }
-  type Book {
-    id: ID!
-    name: String!
-    numPages: Int!
-  }
-  type Query {
-    authors: [Author!]!
-  }
-`;
-
-const resolvers = {
-  Author: {
-    md5: parent => parent.name,
-  },
-  Query: {
-    authors: async (_, __, { user }) => {
-      console.log(user);
-      return data;
-    },
-  },
-};
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
-
+const schema = genSchema();
 const cache = {};
 
 const graphqlServer = new ApolloServer({
@@ -54,6 +19,10 @@ const graphqlServer = new ApolloServer({
     }
 
     return cache[source].query({}, context, {});
+  },
+  formatError: err => {
+    logger.error(err);
+    return err;
   },
 });
 

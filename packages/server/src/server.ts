@@ -6,8 +6,19 @@ import * as fastifyCookie from "fastify-cookie";
 import * as fastifySession from "fastify-server-session";
 import * as http from "http";
 import { IncomingMessage, Server, ServerResponse } from "http";
+import * as path from "path";
 import "reflect-metadata";
+import { getRepository } from "typeorm";
+import {
+  Builder,
+  fixturesIterator,
+  Loader,
+  Parser,
+  Resolver,
+} from "typeorm-fixtures-cli/dist";
 import { AddressInfo } from "ws";
+import { createTypeormConn } from "./createTypeormConn";
+import { logger } from "./utils/logger";
 
 declare module "fastify" {
   export interface FastifyInstance<
@@ -29,11 +40,27 @@ declare module "fastify" {
   }
 }
 
-export const initServer = (
+export const initServer = async (
   graphqlHandler: (
     app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>
   ) => void
-): void => {
+): Promise<void> => {
+  const connection = await createTypeormConn();
+  if (connection) {
+    logger.info("database connected");
+    await connection.runMigrations();
+    const loader = new Loader();
+    loader.load(path.resolve("./src/fixtures"));
+
+    const resolver = new Resolver();
+    const fixtures = resolver.resolve(loader.fixtureConfigs);
+    const builder = new Builder(connection, new Parser());
+
+    for (const fixture of fixturesIterator(fixtures)) {
+      const entity = await builder.build(fixture);
+      await getRepository(entity.constructor.name).save(entity);
+    }
+  }
   const server = fastify({})
     .register(graphqlHandler)
     .register(fastifyCache)
@@ -63,12 +90,12 @@ export const initServer = (
   server
     .listen(3001)
     .then(function() {
-      console.log(
+      logger.info(
         "listening on %s",
         (server.server.address() as AddressInfo).port
       );
     })
     .catch(function(err) {
-      console.error(err.stack);
+      logger.error(err.stack);
     });
 };

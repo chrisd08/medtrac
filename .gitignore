@@ -7,3 +7,5 @@ tmp/
 temp/
 dist
 .eslintcache
+packages/server/src/schema.graphql
+packages/server/src/@types/schema.ts

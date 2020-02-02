@@ -16,7 +16,7 @@ interface Auth0Context {
   loading: boolean;
   popupOpen: boolean;
   loginWithPopup: Function;
-  handleRedirectCallback: (appState?: AppState) => void;
+  handleRedirectCallback: () => void;
   getIdTokenClaims: (p?: getIdTokenClaimsOptions) => void;
   loginWithRedirect: (p?: RedirectLoginOptions) => void;
   getTokenSilently: (p?: GetTokenSilentlyOptions) => void;

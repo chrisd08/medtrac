@@ -5,12 +5,11 @@ const Profile: React.FC = () => {
   const { loading, user, getTokenSilently } = useAuth0();
 
   useEffect(() => {
-    console.log(getTokenSilently);
     const getData = async (): Promise<void> => {
-      const token = await getTokenSilently();
+      const token = getTokenSilently();
       const response = await fetch("/graphql", {
         method: "POST",
-        body: `{"operationName":null,"variables":{},"query":"{authors {id}}"}`,
+        body: `{"operationName":null,"variables":{},"query":"{me {id,username,profiles{id,name,user{id}}}}"}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
