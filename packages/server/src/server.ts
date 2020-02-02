@@ -1,65 +1,24 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import * as fastify from "fastify";
 import * as fastifyAuth from "fastify-auth0-verify";
 import * as fastifyCache from "fastify-caching";
 import * as fastifyCookie from "fastify-cookie";
 import * as fastifySession from "fastify-server-session";
-import * as http from "http";
 import { IncomingMessage, Server, ServerResponse } from "http";
-import * as path from "path";
 import "reflect-metadata";
-import { getRepository } from "typeorm";
-import {
-  Builder,
-  fixturesIterator,
-  Loader,
-  Parser,
-  Resolver,
-} from "typeorm-fixtures-cli/dist";
 import { AddressInfo } from "ws";
-import { createTypeormConn } from "./createTypeormConn";
+import { createTypeORMConn, runFixtures } from "./utils/database";
 import { logger } from "./utils/logger";
-
-declare module "fastify" {
-  export interface FastifyInstance<
-    HttpServer = http.Server,
-    HttpRequest = http.IncomingMessage,
-    HttpResponse = http.ServerResponse
-  > {
-    authenticate: FastifyMiddleware;
-  }
-
-  interface FastifyRequest<
-    HttpRequest = http.IncomingMessage,
-    Query = DefaultQuery,
-    Params = DefaultParams,
-    Headers = DefaultHeaders,
-    Body = DefaultBody
-  > {
-    user: unknown;
-  }
-}
 
 export const initServer = async (
   graphqlHandler: (
     app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>
   ) => void
 ): Promise<void> => {
-  const connection = await createTypeormConn();
+  const connection = await createTypeORMConn();
   if (connection) {
     logger.info("database connected");
     await connection.runMigrations();
-    const loader = new Loader();
-    loader.load(path.resolve("./src/fixtures"));
-
-    const resolver = new Resolver();
-    const fixtures = resolver.resolve(loader.fixtureConfigs);
-    const builder = new Builder(connection, new Parser());
-
-    for (const fixture of fixturesIterator(fixtures)) {
-      const entity = await builder.build(fixture);
-      await getRepository(entity.constructor.name).save(entity);
-    }
+    await runFixtures(connection);
   }
   const server = fastify({})
     .register(graphqlHandler)

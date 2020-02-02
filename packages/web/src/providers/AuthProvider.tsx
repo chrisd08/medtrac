@@ -19,7 +19,7 @@ interface Auth0Context {
   handleRedirectCallback: () => void;
   getIdTokenClaims: (p?: getIdTokenClaimsOptions) => void;
   loginWithRedirect: (p?: RedirectLoginOptions) => void;
-  getTokenSilently: (p?: GetTokenSilentlyOptions) => Promise<string | null>;
+  getTokenSilently: (p?: GetTokenSilentlyOptions) => Promise<string> | null;
   getTokenWithPopup: (p?: GetTokenWithPopupOptions) => void;
   logout: (p?: LogoutOptions) => void;
 }
@@ -97,7 +97,7 @@ export const Auth0Provider: React.FC<Auth0ClientOptions> = ({
   };
 
   const getTokenSilently = useCallback(
-    (p?: GetTokenSilentlyOptions) => auth0Client?.getTokenSilently(p),
+    (p?: GetTokenSilentlyOptions) => auth0Client?.getTokenSilently(p) || null,
     [auth0Client]
   );
 
