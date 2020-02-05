@@ -1,19 +1,15 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth0 } from "../providers/AuthProvider";
+import auth from "../services/auth";
 
 const NavBar: React.FC = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, login, logout } = auth;
 
   return (
     <div>
       {!isAuthenticated && (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => loginWithRedirect({})}
-        >
+        <Button variant="contained" color="primary" onClick={() => login()}>
           Log in
         </Button>
       )}

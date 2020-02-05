@@ -1,25 +1,13 @@
-import React, { useEffect } from "react";
-import { useAuth0 } from "../providers/AuthProvider";
+import React from "react";
+import { useMeQuery } from "../@types/graphql";
+import auth from "../services/auth";
 
 const Profile: React.FC = () => {
-  const { loading, user, getTokenSilently } = useAuth0();
+  const user = auth.idTokenPayload;
 
-  useEffect(() => {
-    const getData = async (): Promise<void> => {
-      const token = await getTokenSilently();
-      const response = await fetch("/graphql", {
-        method: "POST",
-        body: `{"operationName":null,"variables":{},"query":"{me {id,username,profiles{id,name,user{id}}}}"}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  const { loading, data } = useMeQuery();
 
-      return await response.json();
-    };
-    getData();
-  }, [getTokenSilently]);
+  console.log(loading, data);
 
   if (loading || !user) {
     return <div>Loading...</div>;

@@ -1,35 +1,22 @@
-import React, { ComponentType, useEffect } from "react";
-import { Route, RouteComponentProps } from "react-router-dom";
-import { useAuth0 } from "../providers/AuthProvider";
+import React from "react";
+import { Route, RouteProps } from "react-router-dom";
+import auth from "../services/auth";
 
-interface PrivateRouteProps {
-  component: ComponentType<RouteComponentProps>;
-  path: string;
-}
-
-const GuardedRoute: React.FC<PrivateRouteProps> = ({
-  component: Component,
-  path,
-  ...rest
-}) => {
-  const { loading, isAuthenticated, loginWithRedirect } = useAuth0();
-
-  useEffect(() => {
-    if (loading || isAuthenticated) {
-      return;
-    }
-    const fn = async (): Promise<void> => {
-      await loginWithRedirect({
-        appState: { targetUrl: path },
-      });
-    };
-    fn();
-  }, [loading, isAuthenticated, loginWithRedirect, path]);
-
-  const render: (props: RouteComponentProps) => React.ReactNode = props =>
-    isAuthenticated === true ? <Component {...props} /> : null;
-
-  return <Route path={path} render={render} {...rest} />;
+const GuardedRoute: React.FC<RouteProps> = props => {
+  const { component: Component, path } = props;
+  return (
+    <Route
+      exact
+      path={path}
+      render={props => {
+        if (!auth.isAuthenticated) {
+          auth.login();
+          return null;
+        }
+        return Component ? <Component {...props} /> : null;
+      }}
+    />
+  );
 };
 
 export default GuardedRoute;

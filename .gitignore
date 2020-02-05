@@ -9,3 +9,4 @@ dist
 .eslintcache
 packages/server/src/schema.graphql
 packages/server/src/@types/schema.ts
+packages/web/src/@types/graphql.ts
