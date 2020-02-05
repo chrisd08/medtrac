@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import auth from "../services/auth";
+import { useAuth } from "../contexts/auth";
 
 export const Callback: React.FC = () => {
   const history = useHistory();
+  const { handleAuthentication } = useAuth();
   useEffect(() => {
     const authenticate = async (): Promise<void> => {
-      await auth.handleAuthentication();
+      await handleAuthentication();
       history.replace("/");
     };
     authenticate();

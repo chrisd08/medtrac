@@ -1,6 +1,6 @@
 import React from "react";
 
-export function createCtx<A>(): [() => A, React.Provider<A | undefined>] {
+export function createContext<A>(): [() => A, React.Provider<A | undefined>] {
   const ctx = React.createContext<A | undefined>(undefined);
   function useCtx(): A {
     const c = React.useContext(ctx);

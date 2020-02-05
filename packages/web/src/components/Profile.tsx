@@ -1,9 +1,9 @@
 import React from "react";
 import { useMeQuery } from "../@types/graphql";
-import auth from "../services/auth";
+import useUser from "../hooks/useUser";
 
 const Profile: React.FC = () => {
-  const user = auth.idTokenPayload;
+  const user = useUser();
 
   const { loading, data } = useMeQuery();
 

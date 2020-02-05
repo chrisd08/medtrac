@@ -1,25 +1,25 @@
 import { ApolloProvider } from "@apollo/react-hooks";
 import React, { ReactElement } from "react";
-import { useAuth } from "./hooks/useAuth";
+import { AuthContainer } from "./containers/AuthContainer";
 import { Routes } from "./Routes";
+import { Auth } from "./services/auth";
 import { createApolloClient } from "./utils/apollo";
 
-const client = createApolloClient();
+const auth = new Auth();
+const client = createApolloClient(auth);
 
 function App(): ReactElement {
-  const authing = useAuth();
-
-  if (authing) {
-    return <div>Loading</div>;
-  } else {
-    return (
-      <ApolloProvider client={client}>
-        <div className="App">
-          <Routes />
-        </div>
-      </ApolloProvider>
-    );
-  }
+  return (
+    <AuthContainer auth={auth}>
+      {() => (
+        <ApolloProvider client={client}>
+          <div className="App">
+            <Routes />
+          </div>
+        </ApolloProvider>
+      )}
+    </AuthContainer>
+  );
 }
 
 export default App;

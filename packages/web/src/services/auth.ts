@@ -19,12 +19,12 @@ export interface AuthInterface {
 }
 
 export class Auth implements AuthInterface {
+  private authFlag = "isLoggedIn";
   private auth0: auth0.WebAuth;
   public idToken?: string;
   public accessToken?: string;
   public idTokenPayload?: UserInterface;
-  private expiresAt?: number;
-  private authFlag: string;
+  public expiresAt?: number;
 
   constructor() {
     this.auth0 = new auth0.WebAuth({
@@ -35,8 +35,6 @@ export class Auth implements AuthInterface {
       responseType: "token id_token",
       scope: "openid profile email",
     });
-
-    this.authFlag = "isLoggedIn";
   }
 
   get isAuthenticated(): boolean {
@@ -56,17 +54,17 @@ export class Auth implements AuthInterface {
     });
   };
 
-  setSession(authResult: auth0.Auth0DecodedHash): void {
+  setSession = (authResult: auth0.Auth0DecodedHash): void => {
     this.idToken = authResult.idToken;
     this.idTokenPayload = authResult.idTokenPayload;
     this.accessToken = authResult.accessToken;
     if (authResult.expiresIn) {
-      this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+      this.expiresAt = new Date().getTime() + authResult.expiresIn * 1000;
     }
     localStorage.setItem(this.authFlag, JSON.stringify(true));
-  }
+  };
 
-  handleAuthentication(): Promise<void> {
+  handleAuthentication = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       this.auth0.parseHash((err, authResult) => {
         if (err) return reject(err);
@@ -77,9 +75,9 @@ export class Auth implements AuthInterface {
         resolve();
       });
     });
-  }
+  };
 
-  silentAuth(): Promise<void> | undefined {
+  silentAuth = (): Promise<void> | undefined => {
     if (this.isAuthenticated) {
       return new Promise((resolve, reject) => {
         this.auth0.checkSession({}, (err, authResult) => {
@@ -92,9 +90,5 @@ export class Auth implements AuthInterface {
         });
       });
     }
-  }
+  };
 }
-
-const auth = new Auth();
-
-export default auth;

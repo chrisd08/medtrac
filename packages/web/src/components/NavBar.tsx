@@ -1,10 +1,10 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { Link } from "react-router-dom";
-import auth from "../services/auth";
+import { useAuth } from "../contexts/auth";
 
 const NavBar: React.FC = () => {
-  const { isAuthenticated, login, logout } = auth;
+  const { isAuthenticated, login, logout } = useAuth();
 
   return (
     <div>

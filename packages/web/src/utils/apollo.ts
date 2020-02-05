@@ -1,13 +1,15 @@
 import ApolloClient, { NormalizedCacheObject } from "apollo-boost";
-import auth from "../services/auth";
+import { AuthInterface } from "../services/auth";
 
-export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
+export const createApolloClient = (
+  auth: AuthInterface
+): ApolloClient<NormalizedCacheObject> => {
   return new ApolloClient({
     uri: "http://localhost:3001/graphql",
     request: operation => {
       operation.setContext({
         headers: {
-          authorization: `Bearer ${auth.getAccessToken()}`,
+          authorization: `Bearer ${auth.accessToken}`,
         },
       });
     },
