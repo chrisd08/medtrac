@@ -2,6 +2,7 @@ import * as fastify from "fastify";
 import * as fastifyAuth from "fastify-auth0-verify";
 import * as fastifyCache from "fastify-caching";
 import * as fastifyCookie from "fastify-cookie";
+import * as fastifyCors from "fastify-cors";
 import * as fastifySession from "fastify-server-session";
 import { IncomingMessage, Server, ServerResponse } from "http";
 import "reflect-metadata";
@@ -24,6 +25,10 @@ export const initServer = async (
     .register(graphqlHandler)
     .register(fastifyCache)
     .register(fastifyCookie)
+    .register(fastifyCors, {
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
     .register(fastifySession, {
       secretKey: "some-secret-password-at-least-32-characters-long",
       sessionMaxAge: 1000 * 60 * 15, // 15 minutes
