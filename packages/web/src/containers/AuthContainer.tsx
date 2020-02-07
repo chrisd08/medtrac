@@ -26,9 +26,10 @@ export const AuthContainer: React.FC<AuthContainerProps> = ({
         await auth.silentAuth();
         setAuthing(false);
       } catch (err) {
-        if (err.error === "login_required") return;
-        console.log(err.error);
-        setAuthing(false);
+        if (err.error !== "login_required") {
+          console.log(err.error);
+          setAuthing(false);
+        }
       }
     };
     tryAuth();
