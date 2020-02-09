@@ -15,7 +15,7 @@
     "heroku-prebuild": "node scripts/remove-workspaces.js",
     "heroku-postbuild": "node scripts/build-workspaces.js",
     "lint": "eslint --max-warnings 0 --fix -c .eslintrc.js --ignore-path .gitignore --cache --ext .ts,.tsx .",
-    "codegen": "./node_modules/.bin/graphql-codegen"
+    "gen": "./node_modules/.bin/graphql-codegen"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^1.12.1",

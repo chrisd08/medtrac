@@ -1,5 +1,8 @@
 query Me {
   me {
     username
+    profiles {
+      name
+    }
   }
 }

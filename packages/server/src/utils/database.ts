@@ -13,24 +13,7 @@ import {
   Parser,
   Resolver,
 } from "typeorm-fixtures-cli/dist";
-
-export const createTypeORMConn = async (): Promise<Connection | null> => {
-  let retries = 5;
-  while (retries) {
-    try {
-      const config = await getConnectionOptions("default");
-      return createConnection(config);
-    } catch (err) {
-      console.log(err);
-      retries -= 1;
-      console.log(`retries left: ${retries}`);
-      // wait 5 seconds
-      await new Promise(res => setTimeout(res, 5000));
-    }
-  }
-
-  return null;
-};
+import { logger } from ".";
 
 export const runFixtures = async (connection: Connection): Promise<void> => {
   const loader = new Loader();
@@ -44,4 +27,26 @@ export const runFixtures = async (connection: Connection): Promise<void> => {
     const entity = await builder.build(fixture);
     await getRepository(entity.constructor.name).save(entity);
   }
+};
+
+export const createDatabaseConnection = async (): Promise<Connection | null> => {
+  let retries = 5;
+  while (retries) {
+    try {
+      const config = await getConnectionOptions("default");
+      const connection = await createConnection(config);
+      logger.info("database connected");
+      await connection.runMigrations();
+      await runFixtures(connection);
+      return connection;
+    } catch (err) {
+      console.log(err);
+      retries -= 1;
+      console.log(`retries left: ${retries}`);
+      // wait 5 seconds
+      await new Promise(res => setTimeout(res, 5000));
+    }
+  }
+
+  return null;
 };

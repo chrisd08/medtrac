@@ -7,7 +7,6 @@ import * as fastifySession from "fastify-server-session";
 import { IncomingMessage, Server, ServerResponse } from "http";
 import "reflect-metadata";
 import { AddressInfo } from "ws";
-import { createTypeORMConn, runFixtures } from "./utils/database";
 import { logger } from "./utils/logger";
 
 export const initServer = async (
@@ -15,12 +14,6 @@ export const initServer = async (
     app: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>
   ) => void
 ): Promise<void> => {
-  const connection = await createTypeORMConn();
-  if (connection) {
-    logger.info("database connected");
-    await connection.runMigrations();
-    await runFixtures(connection);
-  }
   const server = fastify({})
     .register(graphqlHandler)
     .register(fastifyCache)
