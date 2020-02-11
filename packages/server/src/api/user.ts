@@ -24,16 +24,25 @@ export class UserAPI extends DataSource {
    * @param username username to search for
    */
   async getUser(username: string): Promise<User> {
-    const { userRepo, profileRepo } = this.repos;
-    let currentUser = await userRepo.findOne({ where: { username } });
+    const { userRepo } = this.repos;
+    const currentUser = await userRepo.findOne({ where: { username } });
     if (currentUser) {
       return currentUser;
     }
-    currentUser = userRepo.create({ username });
+    return this.createUser(username);
+  }
+
+  /**
+   * Create a new user
+   * @param username username for the new user
+   */
+  async createUser(username: string): Promise<User> {
+    const { userRepo, profileRepo } = this.repos;
+    const user = userRepo.create({ username });
     const profile = profileRepo.create({ name: "default" });
     await profileRepo.save(profile);
-    (await currentUser.profiles).push(profile);
-    await userRepo.save(currentUser);
-    return currentUser;
+    (await user.profiles).push(profile);
+    await userRepo.save(user);
+    return user;
   }
 }

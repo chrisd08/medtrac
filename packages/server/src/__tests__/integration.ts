@@ -1,38 +1,53 @@
-import {
-  ApolloServerTestClient,
-  createTestClient,
-} from "apollo-server-testing";
+import { ApolloServerTestClient } from "apollo-server-testing";
 import gql from "graphql-tag";
 import { Connection } from "typeorm";
-import { createTestConn, createTestServer } from "./__utils";
+import { DataSourceRepos } from "../@types";
+import { setupTests } from "./__utils";
 
 const ME_QUERY = gql`
   {
     me {
       id
       username
+      profiles {
+        name
+      }
     }
   }
 `;
 
-let conn: Connection;
-let client: ApolloServerTestClient;
+let connection: Connection,
+  client: ApolloServerTestClient,
+  repos: DataSourceRepos;
 
 beforeAll(async () => {
-  conn = await createTestConn(true);
-  client = createTestClient(
-    createTestServer(() => ({
-      user: { sub: "test" },
-    }))
-  );
+  [connection, client, repos] = await setupTests();
 });
 
-afterAll(() => conn.close());
+afterAll(() => connection.close());
 
 describe("user", () => {
-  it("creates a new user", async () => {
-    const { query } = client;
-    const response = await query({ query: ME_QUERY });
-    expect(response).not.toBeNull();
+  describe("when a user does not exist", () => {
+    it("should create one with a default profile", async () => {
+      const { query } = client;
+      const response = await query({ query: ME_QUERY });
+      expect(response.data.me).toMatchSnapshot({ id: expect.any(String) });
+    });
+  });
+
+  describe("when a user does exist", () => {
+    beforeAll(() => {
+      repos.userRepo.create({ username: "test" });
+    });
+
+    afterAll(() => {
+      repos.userRepo.delete({ username: "test" });
+    });
+
+    it("returns the user", async () => {
+      const { query } = client;
+      const response = await query({ query: ME_QUERY });
+      expect(response.data.me).toMatchSnapshot({ id: expect.any(String) });
+    });
   });
 });

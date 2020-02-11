@@ -1,11 +1,11 @@
 import { UserAPI } from "../api";
 
 interface API {
-  user?: Partial<UserAPI>;
+  user?: UserAPI;
 }
 
 export interface Context {
-  dataSources?: Partial<API>;
+  dataSources?: API;
   url: string;
   req: Express.Request;
   user: {
