@@ -1,0 +1,25 @@
+type Error {
+  path: String!
+  message: String!
+}
+
+type Profile {
+  id: ID!
+  name: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  username: String!
+  profiles: [Profile!]!
+  currentProfile: Profile!
+}
+
+type Query {
+  me: User!
+}
+
+schema {
+  query: Query
+}

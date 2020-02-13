@@ -17,7 +17,10 @@ export const genSchema = (): GraphQLSchema => {
 
   const typeDefs = mergeTypes(graphqlTypes);
 
-  fs.writeFileSync(path.join(__dirname, "../schema.graphql"), typeDefs);
+  fs.writeFileSync(
+    path.join(__dirname, "../generated/schema.graphql"),
+    typeDefs
+  );
 
   return makeExecutableSchema({
     typeDefs,

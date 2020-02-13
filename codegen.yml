@@ -1,14 +1,14 @@
-schema: ./packages/server/src/schema.graphql
+schema: ./packages/server/src/generated/schema.graphql
 generates:
-  ./packages/server/src/@types/schema.ts:
+  ./packages/server/src/generated/graphql.ts:
     config:
       defaultMapper: any
-      contextType: ./context#Context
+      contextType: ../@types#Context
     plugins:
       - add: /* eslint-disable */
       - typescript
       - typescript-resolvers
-  ./packages/web/src/@types/graphql.ts:
+  ./packages/web/src/generated/graphql.ts:
     documents: ./packages/web/src/graphql/*.graphql
     plugins:
       - add: /* eslint-disable */

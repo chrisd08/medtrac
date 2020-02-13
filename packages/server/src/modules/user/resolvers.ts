@@ -1,4 +1,4 @@
-import { Resolvers } from "../../@types/schema";
+import { Resolvers } from "../../generated";
 
 export const resolvers: Resolvers = {
   Query: {
