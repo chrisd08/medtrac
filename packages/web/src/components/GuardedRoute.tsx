@@ -20,4 +20,4 @@ const GuardedRoute: React.FC<RouteProps> = props => {
   );
 };
 
-export default GuardedRoute;
+export { GuardedRoute };

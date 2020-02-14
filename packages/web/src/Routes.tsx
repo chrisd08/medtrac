@@ -1,9 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Callback } from "./components/Callback";
-import GuardedRoute from "./components/GuardedRoute";
-import NavBar from "./components/NavBar";
-import Profile from "./components/Profile";
+import { Callback, Dashboard, GuardedRoute, NavBar } from "./components";
 
 export const Routes: React.FC = () => {
   return (
@@ -14,7 +11,7 @@ export const Routes: React.FC = () => {
       <Switch>
         <Route path="/" exact />
         <Route exact path="/callback" component={Callback} />
-        <GuardedRoute path="/profile" component={Profile} />
+        <GuardedRoute path="/dashboard" component={Dashboard} />
       </Switch>
     </>
   );

@@ -1,27 +1,55 @@
+import { Avatar, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import clsx from "clsx";
 import React from "react";
-import { useMeQuery } from "../@types/graphql";
-import useUser from "../hooks/useUser";
+import { Link as RouterLink } from "react-router-dom";
 
-const Profile: React.FC = () => {
-  const user = useUser();
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    minHeight: "fit-content",
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+  },
+  name: {
+    marginTop: theme.spacing(1),
+  },
+}));
 
-  const { loading, data } = useMeQuery();
+interface ProfileProps {
+  className?: string;
+}
 
-  console.log(loading, data);
+const Profile: React.FC<ProfileProps> = props => {
+  const { className } = props;
 
-  if (loading || !user) {
-    return <div>Loading...</div>;
-  }
+  const classes = useStyles();
+
+  const user = {
+    name: "Shen Zhi",
+    avatar: "/images/avatar.png",
+    bio: "Brain Director",
+  };
 
   return (
-    <>
-      <img src={user.picture} alt="Profile" />
-
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-      <code>{JSON.stringify(user, null, 2)}</code>
-    </>
+    <div className={clsx(classes.root, className)}>
+      <Avatar
+        alt="Person"
+        className={classes.avatar}
+        component={RouterLink}
+        src={user.avatar}
+        to="/settings"
+      />
+      <Typography className={classes.name} variant="h4">
+        {user.name}
+      </Typography>
+      <Typography variant="body2">{user.bio}</Typography>
+    </div>
   );
 };
 
-export default Profile;
+export { Profile };

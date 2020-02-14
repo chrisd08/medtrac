@@ -19,11 +19,11 @@ const NavBar: React.FC = () => {
       {isAuthenticated && (
         <span>
           <Link to="/">Home</Link>&nbsp;
-          <Link to="/profile">Profile</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </span>
       )}
     </div>
   );
 };
 
-export default NavBar;
+export { NavBar };
