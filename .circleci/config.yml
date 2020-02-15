@@ -11,7 +11,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: node:11.10.1
+      - image: node:12.16.0
       - image: circleci/postgres:11-alpine-ram
         environment:
           POSTGRES_USER: postgres
