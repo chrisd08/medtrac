@@ -58,4 +58,10 @@ async function deploy() {
   }
 }
 
-deploy();
+try {
+  deploy();
+} catch (error) {
+  console.error(error);
+  process.exit(1)
+}
+
