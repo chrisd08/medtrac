@@ -19,7 +19,10 @@ export const initServer = async (
     .register(fastifyCache)
     .register(fastifyCookie)
     .register(fastifyCors, {
-      origin: "http://localhost:3000",
+      origin:
+        process.env.NODE_ENV === "production"
+          ? process.env.CLIENT_URL
+          : "http://localhost:3000",
       credentials: true,
     })
     .register(fastifySession, {
