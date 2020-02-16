@@ -45,7 +45,7 @@ export const initServer = async (
   });
 
   server
-    .listen(3001)
+    .listen(+process.env.PORT || 3001)
     .then(function() {
       logger.info(
         "listening on %s",
