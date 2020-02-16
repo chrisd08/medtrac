@@ -1,4 +1,4 @@
-schema: ./packages/server/src/generated/schema.graphql
+schema: ${SCHEMA_PATH:./packages/server/src/generated/schema.graphql}
 generates:
   ./packages/server/src/generated/graphql.ts:
     config:
