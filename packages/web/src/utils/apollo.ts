@@ -5,7 +5,10 @@ export const createApolloClient = (
   auth: AuthInterface
 ): ApolloClient<NormalizedCacheObject> => {
   return new ApolloClient({
-    uri: "http://localhost:3001/graphql",
+    uri:
+      process.env.NODE_ENV === "production"
+        ? process.env.SERVER_URL
+        : "http://localhost:3001/graphql",
     request: operation => {
       operation.setContext({
         headers: {
