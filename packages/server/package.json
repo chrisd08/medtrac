@@ -1,7 +1,7 @@
 {
   "name": "@medtrac/server",
   "private": true,
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
     "@types/ioredis": "^4.0.10",
@@ -17,7 +17,7 @@
     "typeorm-fixtures-cli": "^1.4.2"
   },
   "dependencies": {
-    "@medtrac/common": "^1.0.16",
+    "@medtrac/common": "^1.0.17",
     "apollo-server-express": "^2.9.16",
     "apollo-server-fastify": "^2.9.16",
     "faker": "^4.1.0",
