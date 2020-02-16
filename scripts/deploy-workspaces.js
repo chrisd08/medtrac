@@ -6,8 +6,10 @@ const { readFileSync } = require("fs");
 
 async function deploy() {
   const range = process.env["CIRCLE_COMPARE_URL"].split("/").pop();
-  const { stdout: yarnOutput } = await exec("yarn workspaces info --json");
-  const { stdout: gitOutput } = await exec(`git log --format="" --name-only ${range} packages`);
+  const { stdout: yarnOutput } = await exec("yarn workspaces --json info");
+  const { stdout: gitOutput } = await exec(
+    `git log --format="" --name-only ${range} packages`
+  );
   const workspaces = JSON.parse(JSON.parse(yarnOutput).data);
   const changed = gitOutput
     .trim()
@@ -17,18 +19,29 @@ async function deploy() {
 
   const hasChanged = workspace => {
     if (changed.includes(workspace.split("/").pop())) return true;
-    return workspaces[workspace].workspaceDependencies.some(dep => hasChanged(dep));
+    return workspaces[workspace].workspaceDependencies.some(dep =>
+      hasChanged(dep)
+    );
   };
 
   const canDeploy = workspace => {
-    const package = JSON.parse(readFileSync(`${workspaces[workspace].location}/package.json`));
+    const package = JSON.parse(
+      readFileSync(`${workspaces[workspace].location}/package.json`)
+    );
     return package.scripts && package.scripts["ci:deploy"];
   };
 
-  const needsDeploy = Object.keys(workspaces).filter(ws => hasChanged(ws) && canDeploy(ws));
+  const needsDeploy = Object.keys(workspaces).filter(
+    ws => hasChanged(ws) && canDeploy(ws)
+  );
 
   if (needsDeploy.length) {
-    console.log("\n", "----->", "Deploying workspaces:", needsDeploy.join(", "));
+    console.log(
+      "\n",
+      "----->",
+      "Deploying workspaces:",
+      needsDeploy.join(", ")
+    );
     for (const package of needsDeploy) {
       const workspace = package.split("/").pop();
       const deployment = spawn("yarn", ["run", `ci:deploy:${workspace}`]);
