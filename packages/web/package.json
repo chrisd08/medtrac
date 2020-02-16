@@ -1,5 +1,5 @@
 {
-  "name": "@vitalic-classic/web",
+  "name": "@medtrac/web",
   "version": "1.0.16",
   "private": true,
   "dependencies": {
