@@ -46,6 +46,7 @@ jobs:
           path: reports
       - store_artifacts:
           path: reports
+      - run: yarn workspaces info --json
       # deploy
       - compare-url/reconstruct
       - compare-url/use:
