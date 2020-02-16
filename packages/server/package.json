@@ -17,7 +17,7 @@
     "typeorm-fixtures-cli": "^1.4.2"
   },
   "dependencies": {
-    "@vitalic-classic/common": "^1.0.16",
+    "@medtrac/common": "^1.0.16",
     "apollo-server-express": "^2.9.16",
     "apollo-server-fastify": "^2.9.16",
     "faker": "^4.1.0",

@@ -8,7 +8,7 @@
     "@commitlint/config-conventional": "^8.0.0",
     "@material-ui/core": "^4.6.1",
     "@material-ui/icons": "^4.9.1",
-    "@vitalic-classic/common": "^1.0.16",
+    "@medtrac/common": "^1.0.16",
     "apollo-boost": "^0.4.7",
     "auth0-js": "^9.12.2",
     "clsx": "^1.1.0",
