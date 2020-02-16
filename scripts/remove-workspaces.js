@@ -4,11 +4,13 @@ const { existsSync, rename } = require("fs");
 
 const app = process.env["APP_WORKSPACE"];
 
-exec("yarn workspaces info --json", (_err, stdout) => {
+exec("yarn workspaces --json info", (_err, stdout) => {
   const info = JSON.parse(JSON.parse(stdout).data);
   const getDependencies = (workspace, deps = []) => {
     deps.push(workspace);
-    info[workspace].workspaceDependencies.forEach(dep => getDependencies(dep, deps));
+    info[workspace].workspaceDependencies.forEach(dep =>
+      getDependencies(dep, deps)
+    );
     return deps;
   };
   const dependencies = getDependencies(app);
