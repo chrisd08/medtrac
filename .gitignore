@@ -7,5 +7,3 @@ tmp/
 temp/
 dist
 .eslintcache
-packages/server/src/generated/graphql.ts
-packages/web/src/generated/graphql.ts

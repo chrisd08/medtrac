@@ -43,7 +43,6 @@ export const initServer = async (
 
   server.addHook("preHandler", async function(request, reply, done) {
     if (request.req.url.startsWith("/graphql")) {
-      console.log(request.hostname, request.ip);
       await this.authenticate(request, reply, done);
     }
   });
