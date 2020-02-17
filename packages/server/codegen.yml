@@ -1,0 +1,10 @@
+schema: ./src/generated/schema.graphql
+generates:
+  ./src/generated/graphql.ts:
+    config:
+      defaultMapper: any
+      contextType: ../@types#Context
+    plugins:
+      - add: /* eslint-disable */
+      - typescript
+      - typescript-resolvers

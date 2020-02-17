@@ -15,15 +15,9 @@
     "heroku-prebuild": "node scripts/remove-workspaces.js",
     "heroku-postbuild": "yarn gen && node scripts/build-workspaces.js",
     "lint": "eslint --max-warnings 0 --fix -c .eslintrc.js --ignore-path .gitignore --cache --ext .ts,.tsx .",
-    "gen": "./node_modules/.bin/graphql-codegen"
+    "gen": "lerna run gen"
   },
   "devDependencies": {
-    "@graphql-codegen/add": "^1.12.1",
-    "@graphql-codegen/cli": "^1.12.1",
-    "@graphql-codegen/typescript": "^1.12.1",
-    "@graphql-codegen/typescript-operations": "^1.12.1",
-    "@graphql-codegen/typescript-react-apollo": "^1.12.1",
-    "@graphql-codegen/typescript-resolvers": "^1.12.1",
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
