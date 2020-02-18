@@ -1,3 +1,6 @@
 {
-  "root": "packages/web/build/"
+  "root": "packages/web/build/",
+  "routes": {
+    "/**": "index.html"
+  }
 }
