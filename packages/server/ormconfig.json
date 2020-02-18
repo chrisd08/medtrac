@@ -2,7 +2,7 @@
   {
     "name": "production",
     "type": "postgres",
-    "synchronize": true,
+    "synchronize": false,
     "logging": true,
     "entities": ["src/entity/**/*.ts"],
     "migrations": ["src/migration/**/*.ts"],

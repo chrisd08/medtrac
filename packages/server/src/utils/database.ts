@@ -31,13 +31,19 @@ export const runFixtures = async (connection: Connection): Promise<void> => {
 
 export const createDatabaseConnection = async (): Promise<Connection | null> => {
   let retries = 5;
+  const env = process.env.NODE_ENV;
   while (retries) {
     try {
-      const config = await getConnectionOptions("default");
-      const connection = await createConnection(config);
+      const config = await getConnectionOptions(env);
+      const connection = await createConnection({
+        ...config,
+        ...(env === "production" && { url: process.env.DATABASE_URL }),
+      });
       logger.info("database connected");
       await connection.runMigrations();
-      await runFixtures(connection);
+      if (env !== "production") {
+        await runFixtures(connection);
+      }
       return connection;
     } catch (err) {
       console.log(err);
