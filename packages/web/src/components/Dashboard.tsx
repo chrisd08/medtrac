@@ -6,7 +6,7 @@ import { Default } from "./layouts";
 export const Dashboard: React.FC = () => {
   const user = useUser();
 
-  const { loading } = useMeQuery();
+  const { data, loading } = useMeQuery();
 
   return (
     <Default>
@@ -17,7 +17,10 @@ export const Dashboard: React.FC = () => {
           <img src={user.picture} alt="Profile" />
           <h2>{user.name}</h2>
           <p>{user.email}</p>
-          <code>{JSON.stringify(user, null, 2)}</code>
+          <h3>Auth Data</h3>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+          <h3>User Data (Database)</h3>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
         </>
       )}
     </Default>
