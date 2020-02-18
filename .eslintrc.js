@@ -20,7 +20,7 @@ module.exports = {
   parserOptions: {
     sourceType: "module",
     ecmaVersion: 2018,
-    projects: ["packages/web"],
+    projects: ["packages/web", "projects/server", "projects/web"],
   },
 
   rules: {
@@ -34,7 +34,7 @@ module.exports = {
       },
     ],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
   },
 
   globals: {},
