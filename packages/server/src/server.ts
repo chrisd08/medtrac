@@ -19,26 +19,22 @@ export const initServer = async (
     .register(fastifyCache)
     .register(fastifyCookie)
     .register(fastifyCors, {
-      origin:
-        process.env.NODE_ENV === "production"
-          ? process.env.CLIENT_URL
-          : "http://localhost:3000",
+      origin: process.env.CLIENT_URL,
       credentials: true,
     })
     .register(fastifySession, {
       secretKey: "some-secret-password-at-least-32-characters-long",
       sessionMaxAge: 1000 * 60 * 15, // 15 minutes
       cookie: {
-        domain: "localhost",
+        domain: process.env.SERVER_URL,
         path: "/",
         expires: 1000 * 60 * 15,
         sameSite: "Lax", // important because of the nature of OAuth 2, with all the redirects
       },
     })
     .register(fastifyAuth, {
-      domain: "dev-dye9-qv5.eu.auth0.com",
-      secret:
-        "K9_miEFV-gfa3LQ3-dIDNVMeG9Z3LovYr_4bzQNq5G6iUi3K1VqFi6y_Dd0luf6X",
+      domain: process.env.AUTH0_DOMAIN,
+      secret: process.env.AUTH0_SECRET,
     });
 
   server.addHook("preHandler", async function(request, reply, done) {

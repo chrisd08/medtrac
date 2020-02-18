@@ -10,6 +10,8 @@ import {
   logger,
 } from "./utils";
 
+require("dotenv-safe").config();
+
 createDatabaseConnection()
   .then(connection => {
     const dataSources = createDataSources(connection);

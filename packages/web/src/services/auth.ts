@@ -1,5 +1,5 @@
 import auth0 from "auth0-js";
-import config from "../config/auth_config.json";
+import { config } from "../config";
 
 export interface UserInterface {
   name: string;
@@ -28,10 +28,10 @@ export class Auth implements AuthInterface {
 
   constructor() {
     this.auth0 = new auth0.WebAuth({
-      domain: config.domain,
-      clientID: config.clientId,
-      redirectUri: "http://localhost:3000/callback",
-      audience: config.audience,
+      domain: config.AUTH0_DOMAIN,
+      clientID: config.AUTH0_CLIENTID,
+      redirectUri: `${config.CLIENT_URL}/callback`,
+      audience: config.AUTH0_AUDIENCE,
       responseType: "token id_token",
       scope: "openid profile email",
     });
@@ -49,8 +49,8 @@ export class Auth implements AuthInterface {
   logout = (): void => {
     localStorage.setItem(this.authFlag, JSON.stringify(false));
     this.auth0.logout({
-      returnTo: "http://localhost:3000",
-      clientID: config.clientId,
+      returnTo: config.CLIENT_URL,
+      clientID: config.AUTH0_CLIENTID,
     });
   };
 

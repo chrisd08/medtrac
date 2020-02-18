@@ -1,14 +1,12 @@
 import ApolloClient, { NormalizedCacheObject } from "apollo-boost";
+import { config } from "../config";
 import { AuthInterface } from "../services/auth";
 
 export const createApolloClient = (
   auth: AuthInterface
 ): ApolloClient<NormalizedCacheObject> => {
   return new ApolloClient({
-    uri:
-      process.env.NODE_ENV === "production"
-        ? process.env.SERVER_URL
-        : "http://localhost:3001/graphql",
+    uri: `${config.SERVER_URL}/graphql`,
     request: operation => {
       operation.setContext({
         headers: {
