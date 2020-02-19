@@ -23,13 +23,12 @@ export const createTestServer = (
   });
 };
 
-export const createTestConn = async (resetDB = false): Promise<Connection> => {
-  const connectionOptions = await getConnectionOptions("default");
+export const createTestConn = async (): Promise<Connection> => {
+  const connectionOptions = await getConnectionOptions("development");
   return createConnection({
     ...connectionOptions,
-    synchronize: resetDB,
-    dropSchema: resetDB,
-    logging: false,
+    name: "default",
+    logging: ["error"],
   });
 };
 
@@ -38,7 +37,7 @@ export const setupTests = async (
     user: { sub: "test" },
   })
 ): Promise<[Connection, ApolloServerTestClient, DataSourceRepos]> => {
-  const connection = await createTestConn(true);
+  const connection = await createTestConn();
   const repos = {
     userRepo: connection.getRepository(User),
     profileRepo: connection.getRepository(Profile),

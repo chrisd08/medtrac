@@ -15,8 +15,8 @@ jobs:
       - image: circleci/postgres:11-alpine-ram
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: example12
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: medtrac
       - image: redis:latest
     working_directory: ~/repo
     steps:
