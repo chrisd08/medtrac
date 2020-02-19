@@ -38,10 +38,12 @@ export const createDatabaseConnection = async (): Promise<Connection | null> => 
       const connection = await createConnection({
         ...config,
         ...(env === "production" && { url: process.env.DATABASE_URL }),
+        name: "default",
       });
       logger.info("database connected");
-      await connection.runMigrations();
-      if (env !== "production") {
+      if (env === "production") {
+        await connection.runMigrations();
+      } else {
         await runFixtures(connection);
       }
       return connection;

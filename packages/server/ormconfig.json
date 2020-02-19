@@ -14,7 +14,7 @@
     }
   },
   {
-    "name": "default",
+    "name": "development",
     "type": "sqlite",
     "database": ":memory:",
     "synchronize": true,
