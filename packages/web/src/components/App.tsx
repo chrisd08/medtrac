@@ -16,9 +16,7 @@ function App(): ReactElement {
       <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
           <div className="App">
-            <header>
-              <NavBar />
-            </header>
+            <NavBar />
             <Routes />
           </div>
         </ApolloProvider>

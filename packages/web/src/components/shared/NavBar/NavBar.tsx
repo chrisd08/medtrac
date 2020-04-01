@@ -7,7 +7,7 @@ const NavBar: React.FC = () => {
   const { handleLogin, handleLogout, loggedIn } = useAuth();
 
   return (
-    <div>
+    <header>
       {!loggedIn && (
         <Button
           variant="contained"
@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
           <Link to="/dashboard">Dashboard</Link>
         </span>
       )}
-    </div>
+    </header>
   );
 };
 
