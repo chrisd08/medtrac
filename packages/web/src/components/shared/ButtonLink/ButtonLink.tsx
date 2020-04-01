@@ -1,17 +1,20 @@
-import { Button, ButtonProps } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { LocationDescriptor } from "history";
 import React, { forwardRef } from "react";
 import { LinkProps, NavLink as RouterLink } from "react-router-dom";
 
-const CustomRouterLink = forwardRef<HTMLDivElement, LinkProps>((props, ref) => (
-  <div ref={ref} style={{ flexGrow: 1 }}>
-    <RouterLink {...props} />
-  </div>
-));
+const CustomRouterLink = forwardRef<HTMLAnchorElement, LinkProps>(
+  (props, ref) => (
+    <div style={{ flexGrow: 1 }}>
+      <RouterLink innerRef={ref} {...props} />
+    </div>
+  )
+);
 
-interface ButtonLinkProps extends ButtonProps {
+interface ButtonLinkProps {
   to: LocationDescriptor;
   activeClassName: string;
+  className: string;
 }
 
 const ButtonLink: React.FC<ButtonLinkProps> = props => {
@@ -19,9 +22,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = props => {
     <Button
       {...props}
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      component={({ innerRef, ...linkProps }) => (
-        <CustomRouterLink {...linkProps} to={props.to} />
-      )}
+      component={CustomRouterLink}
     >
       {props.children}
     </Button>

@@ -1,3 +1,4 @@
 import { EffectCallback, useEffect } from "react";
 
-export default (callback: EffectCallback): void => useEffect(callback, []);
+export const useMountEffect = (callback: EffectCallback): void =>
+  useEffect(callback, []);

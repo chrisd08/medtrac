@@ -2,7 +2,7 @@ import { colors, List, ListItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
 import React from "react";
-import { ButtonLink, Page } from ".";
+import { ButtonLink, Page } from "../../";
 
 const useStyles = makeStyles(theme => ({
   root: {},

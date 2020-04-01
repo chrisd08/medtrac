@@ -1,22 +1,26 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../../../contexts/auth";
 
 const NavBar: React.FC = () => {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { handleLogin, handleLogout, loggedIn } = useAuth();
 
   return (
     <div>
-      {!isAuthenticated && (
-        <Button variant="contained" color="primary" onClick={() => login()}>
+      {!loggedIn && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleLogin()}
+        >
           Log in
         </Button>
       )}
 
-      {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
+      {loggedIn && <button onClick={() => handleLogout()}>Log out</button>}
 
-      {isAuthenticated && (
+      {loggedIn && (
         <span>
           <Link to="/">Home</Link>&nbsp;
           <Link to="/dashboard">Dashboard</Link>

@@ -2,7 +2,7 @@ import { Divider, Drawer, DrawerProps } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
 import React from "react";
-import { pages, Profile, SidebarNav } from ".";
+import { pages, Profile, SidebarNav } from "../";
 
 const useStyles = makeStyles(theme => ({
   drawer: {

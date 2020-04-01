@@ -5,7 +5,9 @@ module.exports = {
     "/node_modules/",
     "/__utils",
     "/setup",
-    "/generated",
+    "/generated/",
+    "/.git/",
+    "/.history/",
   ],
   globals: {
     "ts-jest": {

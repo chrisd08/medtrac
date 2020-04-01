@@ -1,15 +1,16 @@
 import React from "react";
-import { useMeQuery } from "../generated/graphql";
-import useUser from "../hooks/useUser";
-import { Default } from "./layouts";
+import { useMeQuery } from "../../../generated/graphql";
+import { useUser } from "../../../hooks/useUser";
+import { Default } from "../../layouts";
 
-export const Dashboard: React.FC = () => {
+export const DashboardComponent: React.FC = () => {
   const user = useUser();
 
   const { data, loading } = useMeQuery();
 
   return (
-    <Default>
+    <div>
+      <h1>Dashboard</h1>
       {loading || !user ? (
         <div>Loading...</div>
       ) : (
@@ -23,6 +24,12 @@ export const Dashboard: React.FC = () => {
           <pre>{JSON.stringify(data, null, 2)}</pre>
         </>
       )}
-    </Default>
+    </div>
   );
 };
+
+export const Dashboard: React.FC = () => (
+  <Default>
+    <DashboardComponent />
+  </Default>
+);

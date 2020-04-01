@@ -11,11 +11,11 @@ export interface AuthInterface {
   isAuthenticated: boolean;
   idToken?: string;
   accessToken?: string;
-  idTokenPayload?: UserInterface;
+  user?: UserInterface;
   login(): void;
   logout(): void;
-  handleAuthentication(): Promise<void>;
-  silentAuth(): Promise<void> | undefined;
+  authorise(): Promise<void>;
+  silentAuth(): Promise<boolean>;
 }
 
 export class Auth implements AuthInterface {
@@ -23,7 +23,7 @@ export class Auth implements AuthInterface {
   private auth0: auth0.WebAuth;
   public idToken?: string;
   public accessToken?: string;
-  public idTokenPayload?: UserInterface;
+  public user?: UserInterface;
   public expiresAt?: number;
 
   constructor() {
@@ -56,7 +56,7 @@ export class Auth implements AuthInterface {
 
   setSession = (authResult: auth0.Auth0DecodedHash): void => {
     this.idToken = authResult.idToken;
-    this.idTokenPayload = authResult.idTokenPayload;
+    this.user = authResult.idTokenPayload;
     this.accessToken = authResult.accessToken;
     if (authResult.expiresIn) {
       this.expiresAt = new Date().getTime() + authResult.expiresIn * 1000;
@@ -64,7 +64,7 @@ export class Auth implements AuthInterface {
     localStorage.setItem(this.authFlag, JSON.stringify(true));
   };
 
-  handleAuthentication = (): Promise<void> => {
+  authorise = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       this.auth0.parseHash((err, authResult) => {
         if (err) return reject(err);
@@ -77,7 +77,7 @@ export class Auth implements AuthInterface {
     });
   };
 
-  silentAuth = (): Promise<void> | undefined => {
+  silentAuth = (): Promise<boolean> => {
     if (this.isAuthenticated) {
       return new Promise((resolve, reject) => {
         this.auth0.checkSession({}, (err, authResult) => {
@@ -86,9 +86,10 @@ export class Auth implements AuthInterface {
             return reject(err);
           }
           this.setSession(authResult);
-          resolve();
+          resolve(true);
         });
       });
     }
+    return Promise.resolve(false);
   };
 }
