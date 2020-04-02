@@ -57,6 +57,7 @@ const Sidebar: React.FC<SidebarProps> = props => {
       onClose={onClose}
       open={open}
       variant={variant}
+      data-testid={"sidebar-drawer"}
     >
       <div className={clsx(classes.root, className)}>
         <Profile />

@@ -47,7 +47,11 @@ const Topbar: React.FC<TopbarProps> = props => {
           </IconButton>
         </Hidden>
         <Hidden lgUp>
-          <IconButton color="inherit" onClick={onSidebarOpen}>
+          <IconButton
+            color="inherit"
+            onClick={onSidebarOpen}
+            data-testid={"sidebar-button"}
+          >
             <MenuIcon />
           </IconButton>
         </Hidden>
