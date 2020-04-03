@@ -1,9 +1,9 @@
 import { ThemeProvider } from "@material-ui/core";
-import { match } from "css-mediaquery";
 import React from "react";
 import { MemoryRouter } from "react-router";
 import { Default } from "..";
 import {
+  createMatchMedia,
   fireEvent,
   render,
   RenderResult,
@@ -11,14 +11,6 @@ import {
   waitForElementToBeRemoved,
 } from "../../../../testing";
 import theme from "../../../../theme";
-
-function createMatchMedia(width: number): (query: string) => MediaQueryList {
-  return jest.fn().mockImplementation(query => ({
-    matches: match(query, { width }),
-    addListener: () => null,
-    removeListener: () => null,
-  }));
-}
 
 const renderDefault = (): RenderResult =>
   render(
@@ -58,8 +50,8 @@ describe("default layout", () => {
     });
 
     it("allows the sidebar to be opened and closed", async () => {
-      const { getByTestId } = renderDefault();
-      const button = getByTestId("sidebar-button");
+      const { getByTestId, getByTitle } = renderDefault();
+      const button = getByTitle("Open sidebar");
       fireEvent.click(button);
       const sidebar = await waitForElement(() => getByTestId("sidebar-drawer"));
       fireEvent.click(sidebar.firstElementChild as Element);

@@ -27,6 +27,7 @@
     "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "test": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired test --runInBand",
+    "test:coverage": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "ci:test": "SKIP_PREFLIGHT_CHECK=true JEST_JUNIT_OUTPUT=$TEST_OUTPUT/react.xml react-scripts test --ci --runInBand --detectOpenHandles --forceExit --testResultsProcessor=jest-junit",
     "ci:deploy": "npm run heroku:deploy",

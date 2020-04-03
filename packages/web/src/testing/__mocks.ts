@@ -1,3 +1,4 @@
+import { match } from "css-mediaquery";
 import { AuthInterface } from "../services/auth";
 
 const createAuthMock = (
@@ -15,4 +16,14 @@ const createAuthMock = (
   },
 });
 
-export { createAuthMock };
+const createMatchMedia = (
+  width: number
+): ((query: string) => MediaQueryList) => {
+  return jest.fn().mockImplementation(query => ({
+    matches: match(query, { width }),
+    addListener: () => null,
+    removeListener: () => null,
+  }));
+};
+
+export { createAuthMock, createMatchMedia };

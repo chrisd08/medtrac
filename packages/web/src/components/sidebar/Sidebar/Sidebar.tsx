@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 interface SidebarProps {
   className?: string;
-  onClose?(event: React.MouseEvent<HTMLButtonElement>): void;
+  onClose(event: React.MouseEvent<HTMLButtonElement>): void;
   open: boolean;
   variant: DrawerProps["variant"];
 }

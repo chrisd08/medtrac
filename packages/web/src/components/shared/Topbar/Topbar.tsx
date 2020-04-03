@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 interface TopbarProps {
   className?: string;
-  onSidebarOpen?(event: React.MouseEvent<HTMLButtonElement>): void;
+  onSidebarOpen(event: React.MouseEvent<HTMLButtonElement>): void;
 }
 
 const Topbar: React.FC<TopbarProps> = props => {
@@ -38,11 +38,15 @@ const Topbar: React.FC<TopbarProps> = props => {
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <IconButton color="inherit">
-            <Badge badgeContent={1} color="secondary">
+            <Badge badgeContent={1} color="secondary" title={"Notifications"}>
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton className={classes.signOutButton} color="inherit">
+          <IconButton
+            className={classes.signOutButton}
+            color="inherit"
+            title={"Sign out"}
+          >
             <InputIcon />
           </IconButton>
         </Hidden>
@@ -50,7 +54,7 @@ const Topbar: React.FC<TopbarProps> = props => {
           <IconButton
             color="inherit"
             onClick={onSidebarOpen}
-            data-testid={"sidebar-button"}
+            title={"Open sidebar"}
           >
             <MenuIcon />
           </IconButton>

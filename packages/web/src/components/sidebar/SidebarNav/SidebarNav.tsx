@@ -38,8 +38,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface SidebarNavProps {
-  className?: string;
   pages: Page[];
+  className?: string;
 }
 
 const SidebarNav: React.FC<SidebarNavProps> = props => {

@@ -2,9 +2,10 @@ import React from "react";
 import { Route, RouteProps } from "react-router-dom";
 import { useAuth } from "../../../contexts/auth";
 
-// To do: test in real app (/dashbouard when logged out)
+type WithRequired<T extends {}, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
 
-const GuardedRoute: React.FC<RouteProps> = props => {
+const GuardedRoute: React.FC<WithRequired<RouteProps, "component">> = props => {
   const { component: Component, path } = props;
   const { loggedIn, handleLogin } = useAuth();
   return (
@@ -16,7 +17,7 @@ const GuardedRoute: React.FC<RouteProps> = props => {
           handleLogin();
           return null;
         }
-        return Component ? <Component {...props} /> : null;
+        return <Component {...props} />;
       }}
     />
   );
