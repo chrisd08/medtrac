@@ -3,14 +3,10 @@ import InputIcon from "@material-ui/icons/Input";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 import { makeStyles } from "@material-ui/styles";
-import clsx from "clsx";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    boxShadow: "none",
-  },
   flexGrow: {
     flexGrow: 1,
   },
@@ -30,7 +26,7 @@ const Topbar: React.FC<TopbarProps> = props => {
   const classes = useStyles();
 
   return (
-    <AppBar className={clsx(classes.root, className)}>
+    <AppBar className={className}>
       <Toolbar>
         <RouterLink to="/">
           <img alt="Logo" src="/images/logo.svg" />
@@ -65,3 +61,4 @@ const Topbar: React.FC<TopbarProps> = props => {
 };
 
 export { Topbar };
+
